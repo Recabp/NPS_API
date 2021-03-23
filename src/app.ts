@@ -1,6 +1,6 @@
-import 'reflect-metadata'
-import express from 'express'
-import createConnection from "./database"
+import 'reflect-metadata';
+import express from 'express';
+import createConnection from './database';
 import router from './repositories/routes';
 
 createConnection();
@@ -10,5 +10,4 @@ app.use(express.json);
 
 app.use(router);
 
-
-export default app
+export default app;
