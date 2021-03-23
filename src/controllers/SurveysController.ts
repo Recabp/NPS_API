@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import SurveysRepository from "repositories/SurveysRepository";
+import SurveysRepository from "../repositories/SurveysRepository";
 import { getCustomRepository } from "typeorm";
 
 class SurveysController {
