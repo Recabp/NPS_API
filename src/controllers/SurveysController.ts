@@ -3,7 +3,7 @@ import { getCustomRepository } from 'typeorm';
 import SurveysRepository from '../repositories/SurveysRepository';
 
 class SurveysController {
-  async create(request: Request, response: Response) {
+  async create(request: Request, response: Response): Promise<Response> {
     const { title, description } = request.body;
 
     const surveysRepository = getCustomRepository(SurveysRepository);
@@ -18,7 +18,7 @@ class SurveysController {
     return response.status(201).json(survey);
   }
 
-  async show(request: Request, response: Response) {
+  async show(request: Request, response: Response): Promise<Response> {
     const surveysRepository = getCustomRepository(SurveysRepository);
 
     const all = await surveysRepository.find();
