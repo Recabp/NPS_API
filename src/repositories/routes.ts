@@ -7,7 +7,6 @@ const router = Router();
 
 const userController = new UserController();
 const surveysController = new SurveysController();
-console.log(userController);
 
 router.post('/users', userController.create);
 router.post('/surveys', surveysController.create);

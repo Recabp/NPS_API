@@ -6,7 +6,6 @@ class UserController {
   async create(request: Request, response: Response): Promise<Response> {
     const { name, email } = request.body;
     const usersRepository = getCustomRepository(UsersRepository);
-    console.log(name);
 
     const userAlreadyExists = await usersRepository.findOne({
       email,
