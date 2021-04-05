@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import SurveysUsersRepository from 'repositories/SurveysUsersRepository';
 import { getCustomRepository } from 'typeorm';
+import SurveysUsersRepository from '../repositories/SurveysUsersRepository';
 import SurveysRepository from '../repositories/SurveysRepository';
 import UsersRepository from '../repositories/UsersRepository';
 
