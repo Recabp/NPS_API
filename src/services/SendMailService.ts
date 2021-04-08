@@ -1,6 +1,7 @@
 import nodemailer, { Transporter } from 'nodemailer';
 import handlebars from 'handlebars';
 import fs from 'fs';
+import IMailVariablesDTO from 'views/emails/DTOS/IMailsDTOS';
 
 class SendMailService {
   private client: Transporter;
@@ -21,7 +22,12 @@ class SendMailService {
     });
   }
 
-  async execute(to: string, subject: string, variables: any, path: string) {
+  async execute(
+    to: string,
+    subject: string,
+    variables: IMailVariablesDTO,
+    path: string,
+  ) {
     const templateFileContent = fs.readFileSync(path).toString('utf8');
 
     const mailTemplateParse = handlebars.compile(templateFileContent);

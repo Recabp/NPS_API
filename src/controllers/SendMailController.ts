@@ -22,22 +22,15 @@ class SendMailController {
       });
     }
 
-    const surveyAlreadyExists = await surveysRepository.findOne({
+    const survey = await surveysRepository.findOne({
       id: survey_id,
     });
 
-    if (!surveyAlreadyExists) {
+    if (!survey) {
       return response.status(400).json({
         error: 'Survey does not exists!',
       });
     }
-
-    const surveyUser = surveysUsersRepository.create({
-      user_id: userAlreadyExists.id,
-      survey_id,
-    });
-
-    await surveysUsersRepository.save(surveyUser);
 
     const npsPath = path.resolve(
       __dirname,
@@ -47,18 +40,32 @@ class SendMailController {
       'npsMail.hbs',
     );
 
-    await SendMailService.execute(
-      email,
-      surveyAlreadyExists.title,
-      surveyAlreadyExists.description,
-      npsPath,
-    );
-
     const variables = {
       name: userAlreadyExists.name,
-      title: surveyAlreadyExists.title,
-      description: surveyAlreadyExists.description,
+      title: survey.title,
+      description: survey.description,
+      user_id: userAlreadyExists.id,
+      link: process.env.URL_MAIL,
     };
+
+    const surveyUserAlreadyExists = await surveysUsersRepository.findOne({
+      where: [{ user_id: userAlreadyExists.id }, { value: null }],
+      relations: ['user', 'survey'],
+    });
+
+    if (surveyUserAlreadyExists) {
+      await SendMailService.execute(email, survey.title, variables, npsPath);
+      return response.json(surveyUserAlreadyExists);
+    }
+
+    const surveyUser = surveysUsersRepository.create({
+      user_id: userAlreadyExists.id,
+      survey_id,
+    });
+
+    await surveysUsersRepository.save(surveyUser);
+
+    await SendMailService.execute(email, survey.title, variables, npsPath);
 
     return response.json(surveyUser);
   }
