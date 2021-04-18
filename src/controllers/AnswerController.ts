@@ -1,9 +1,9 @@
-import { Response, Request } from 'express';
+import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
 import SurveysUsersRepository from '../repositories/SurveysUsersRepository';
 
 class AnswerController {
-  async execute(request: Request, response: Response): Promise<any> {
+  async execute(request: Request, response: Response): Promise<Response> {
     const { value } = request.params;
     const { u } = request.query;
 
